@@ -1,0 +1,13 @@
+.form {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+}
+
+.formInput {
+  margin-bottom: 8px;
+}
+
+.cancelButton {
+  margin-right: 8px;
+}

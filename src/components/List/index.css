@@ -1,0 +1,9 @@
+.table-heading {
+  font-weight: bold;
+}
+
+td {
+  border: 1px solid grey; 
+  padding: 8px 16px;
+  min-width: 200px;
+}

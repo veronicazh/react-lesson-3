@@ -1,25 +1,67 @@
-import logo from './logo.svg';
-import './App.css';
+import './App.css'
+import React from 'react'
+import List from './components/List'
+import Form from './components/Form'
 
-function App() {
-  return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
-  );
+class App extends React.Component {
+
+  state = {
+    contacts: [
+      {
+        firstName: 'Veronica',
+        lastName: 'Zhukova',
+        phone: '0994683711',
+        id: Math.random()
+      },
+      {
+        firstName: 'Masha',
+        lastName: 'Kasha',
+        phone: '0994683291',
+        id: Math.random()
+      }
+    ],
+
+    flag: false,
+
+  }
+
+  addContact = (newContact) => {
+    this.setState({
+      contacts: [
+        ...this.state.contacts,
+        {...newContact}
+      ]
+    })
+  }
+
+  deleteContact = (id) => {
+    this.setState({ contacts: this.state.contacts.filter((contact) => contact.id !== id)})
+  }
+
+  onButtonClick = () => {
+    this.setState({...this.state.contacts, flag: !this.state.flag})
+  }
+ 
+
+  render () {
+
+    return (
+      <div className='App'>
+        <List 
+          contacts={this.state.contacts}
+          deleteContact={this.deleteContact}
+        />
+        <button onClick={this.onButtonClick} className='addButton'>
+          {this.state.flag ? 'Hide form' : 'Add contact'}
+        </button>
+        {this.state.flag ? <Form 
+          addContact={this.addContact} 
+          contacts={this.state.contacts}
+          onCancelClick={this.onButtonClick}
+        /> : ''}
+      </div>
+    )
+  }
 }
 
 export default App;
