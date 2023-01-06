@@ -1,67 +1,61 @@
-import './App.css'
-import React from 'react'
+import React, {useState} from 'react'
 import List from './components/List'
 import Form from './components/Form'
+import './App.css'
 
-class App extends React.Component {
 
-  state = {
-    contacts: [
-      {
-        firstName: 'Veronica',
-        lastName: 'Zhukova',
-        phone: '0994683711',
-        id: Math.random()
-      },
-      {
-        firstName: 'Masha',
-        lastName: 'Kasha',
-        phone: '0994683291',
-        id: Math.random()
-      }
-    ],
+export default function App () {
 
-    flag: false,
+  const contactList = [
+    {
+      firstName: 'Veronica',
+      lastName: 'Zhukova', 
+      phoneNumber: '0994683711',
+      id: Math.random()
+    },
+    {
+      firstName: 'Masha',
+      lastName: 'Kasha', 
+      phoneNumber: '0994423711',
+      id: Math.random()
+    },
+  ]
 
+  let [contacts, setContacts] = useState(contactList)
+  let [formVisible, setFormVisible] = useState(false)
+
+
+  function deleteContact (id) {
+    let filteredContacts = contacts.filter((elem) => elem.id !== id)
+    setContacts(filteredContacts)
   }
 
-  addContact = (newContact) => {
-    this.setState({
-      contacts: [
-        ...this.state.contacts,
-        {...newContact}
-      ]
-    })
+  function addContact (item) {
+    setContacts([...contacts, item])
   }
 
-  deleteContact = (id) => {
-    this.setState({ contacts: this.state.contacts.filter((contact) => contact.id !== id)})
+  function onCancelClick () {
+    setFormVisible(false)
   }
 
-  onButtonClick = () => {
-    this.setState({...this.state.contacts, flag: !this.state.flag})
+  function switchFormVisibility () {
+    setFormVisible(!formVisible)
   }
- 
 
-  render () {
-
-    return (
-      <div className='App'>
-        <List 
-          contacts={this.state.contacts}
-          deleteContact={this.deleteContact}
-        />
-        <button onClick={this.onButtonClick} className='addButton'>
-          {this.state.flag ? 'Hide form' : 'Add contact'}
-        </button>
-        {this.state.flag ? <Form 
-          addContact={this.addContact} 
-          contacts={this.state.contacts}
-          onCancelClick={this.onButtonClick}
-        /> : ''}
-      </div>
-    )
-  }
+  return (
+    <div>
+      <List 
+        contacts={contacts}
+        deleteContact={deleteContact}
+      />
+      <button onClick={switchFormVisibility}>{formVisible ? 'Hide form' : 'Add contact'}</button>
+      {formVisible ? <Form
+        addContact={addContact}
+        onCancelClick={onCancelClick}
+        switchFormVisibility={switchFormVisibility}
+      /> : ''}
+      
+    </div>
+  )
 }
 
-export default App;

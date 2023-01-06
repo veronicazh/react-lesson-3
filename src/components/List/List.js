@@ -1,36 +1,27 @@
 import React from 'react'
+import ContactItem from '../ContactItem'
 import './index.css'
-import ContactItem from './ContactItem';
 
-class List extends React.Component {
-  render () {
 
-    const { contacts, deleteContact } = this.props;
-
-    return (
-      <div>
-        <table>
-          <tbody>
-            <tr>
-              <td className='table-heading'>First name</td>
-              <td className='table-heading'>Last name</td>
-              <td className='table-heading'>Phone number</td>
-            </tr>
-            {contacts.map((elem) => {
-              return (
-                <ContactItem 
-                  currentContact={elem} 
-                  id={elem.id}
-                  deleteContact={deleteContact}
-                  key={elem.id}
-                />
-              )})
-            }
-          </tbody>
-        </table>
-      </div>
-    )
-  }
+export default function List ({contacts, deleteContact}) {
+  return (
+    <table>
+      <tbody>
+        <tr>
+          <th>First name</th>
+          <th>Last name</th>
+          <th>Phone number</th>
+        </tr>
+        {contacts.map((elem) => {
+          return (
+            <ContactItem 
+              currentContact={elem} 
+              deleteContact={deleteContact}
+              key={elem.id}
+            />
+          )
+        })}
+      </tbody>
+    </table>
+  )
 }
-
-export default List;

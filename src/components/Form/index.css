@@ -2,12 +2,13 @@
   display: flex;
   flex-direction: column;
   align-items: flex-start;
+  margin-top: 16px;
 }
 
-.formInput {
+input {
   margin-bottom: 8px;
 }
 
-.cancelButton {
-  margin-right: 8px;
+button {
+  margin-right: 8px; 
 }

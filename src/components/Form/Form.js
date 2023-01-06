@@ -1,80 +1,67 @@
-import React from 'react'
+import React, { useState } from 'react'
 import './index.css'
 
-class Form extends React.Component {
+export default function Form ({ addContact, onCancelClick, switchFormVisibility }) {
 
-  state = {
+  let [formData, setFormData] = useState({
     firstName: '',
     lastName: '',
-    phone: '', 
+    phoneNumber: '',
     id: Math.random()
-  }
+  })
 
-  onInputValueChange = (event) => {
-    this.setState({
-      ...this.state,
-      [event.target.name]: event.target.value,
-    })
-  }
-
-  clearForm = () => {
-    this.setState({
-      ...this.state,
-      firstName: '',
-      lastName: '',
-      phone: '',
-    })
-  }
-
-  onSubmit = (event) => {
-    event.preventDefault()
-    this.props.addContact(this.state)
-    this.clearForm()
-    this.props.onCancelClick()
-  } 
-
-  render () {
-
-    const {onCancelClick} = this.props;
-
-    return (
-      <form className='form' onSubmit={this.onSubmit}>
-        <input 
-          type='text' 
-          placeholder='Enter first name'
-          value={this.state.firstName}
-          name='firstName'
-          onChange={this.onInputValueChange}
-          className='formInput'
-        />
-        <input 
-          type='text' 
-          placeholder='Enter last name'
-          value={this.state.lastName}
-          name='lastName'
-          onChange={this.onInputValueChange}
-          className='formInput'
-        />
-        <input 
-          type='text' 
-          placeholder='Enter phone'
-          value={this.state.phone}
-          name='phone'
-          onChange={this.onInputValueChange}
-          className='formInput'
-        />
-        <div>
-          <button 
-            type='button' 
-            onClick={onCancelClick} 
-            className='cancelButton'>Cancel</button>
-          <button 
-            type='submit' 
-            disabled={!(this.state.firstName.length > 1 && this.state.lastName.length > 1 && this.state.phone.length > 1)}>OK</button>
-        </div>
-      </form>
+  function onInputChange (event) {
+    setFormData(
+      {...formData, [event.target.name]: event.target.value}
     )
   }
-}
 
-export default Form;
+  function clearForm () {
+    setFormData({
+      ...formData,
+      firstName: '',
+      lastName: '',
+      phoneNumber: ''
+    })
+  }
+
+  function onFormSubmit (event) {
+    event.preventDefault()
+    addContact(formData)
+    clearForm()
+    switchFormVisibility()
+  }
+
+  return (
+    <form onSubmit={onFormSubmit} className='form'>
+      <input 
+        type='text'
+        name='firstName'
+        placeholder='Enter first name' 
+        value={formData.firstName} 
+        onChange={onInputChange}
+      />
+      <input 
+        type='text' 
+        name='lastName'
+        placeholder='Enter last name'
+        value={formData.lastName}
+        onChange={onInputChange}
+      />
+      <input 
+        type='text' 
+        name='phoneNumber'
+        placeholder='Enter phone number' 
+        value={formData.phoneNumber}
+        onChange={onInputChange}
+      />
+      <div>
+        <button type='button' onClick={onCancelClick}>Cancel</button>
+        <button 
+          type='submit'
+          disabled={!(formData.firstName.length > 1 && formData.lastName.length > 1 && formData.phoneNumber.length > 1)}
+        >Add</button> 
+      </div>
+    </form>
+  )
+}
